@@ -1,5 +1,3 @@
-import numpy as np
-
 import gym
 from gym.envs.image_segmentation.helper import *
 import skimage.draw
@@ -95,40 +93,40 @@ class RandomShapesVertices(gym.Env):
         self.cursor = None
         return np.stack([self.image, self.player_mask, cursor_mask], axis=2)
 
-    def _render(self, mode='human', close=False):
-        from gym.envs.classic_control import rendering
-        if close:
-            if self.viewer is not None:
-                self.viewer.close()
-                self.viewer = None
-            return
-
-        scale_factor = 10
-        scale_point = lambda p: tuple(scale_factor * c + scale_factor / 2 for c in p)
-        scale_points = lambda points: [scale_point(p) for p in points]
-
-        if self.viewer is None:
-            self.viewer = rendering.Viewer(scale_factor * self.image_size, scale_factor * self.image_size)
-            # Cursor
-            cursor_polygon = rendering.make_circle(radius=scale_factor / 2)
-            self.cursor_polygon_transformation = rendering.Transform()
-            cursor_polygon.add_attr(self.cursor_polygon_transformation)
-            cursor_polygon.set_color(100, 0, 0)
-            self.viewer.add_geom(cursor_polygon)
-
-        # Ground truth
-        ground_truth_polygon = rendering.FilledPolygon(scale_points(self.poly_verts))
-        self.ground_truth_polygon_transformation = rendering.Transform()
-        ground_truth_polygon.add_attr(self.ground_truth_polygon_transformation)
-        ground_truth_polygon.set_color(0, 100, 0)
-        self.viewer.add_onetime(ground_truth_polygon)
-
-        # Update for every frame
-        if self.cursor is not None:
-            self.cursor_polygon_transformation.set_translation(*scale_point(self.cursor))
-        self.viewer.draw_polyline(scale_points(self.player_points))
-
-        return self.viewer.render(return_rgb_array=mode == 'rgb_array')
+    # def _render(self, mode='human', close=False):
+    #     from gym.envs.classic_control import rendering
+    #     if close:
+    #         if self.viewer is not None:
+    #             self.viewer.close()
+    #             self.viewer = None
+    #         return
+    #
+    #     scale_factor = 10
+    #     scale_point = lambda p: tuple(scale_factor * c + scale_factor / 2 for c in p)
+    #     scale_points = lambda points: [scale_point(p) for p in points]
+    #
+    #     if self.viewer is None:
+    #         self.viewer = rendering.Viewer(scale_factor * self.image_size, scale_factor * self.image_size)
+    #         # Cursor
+    #         cursor_polygon = rendering.make_circle(radius=scale_factor / 2)
+    #         self.cursor_polygon_transformation = rendering.Transform()
+    #         cursor_polygon.add_attr(self.cursor_polygon_transformation)
+    #         cursor_polygon.set_color(100, 0, 0)
+    #         self.viewer.add_geom(cursor_polygon)
+    #
+    #     # Ground truth
+    #     ground_truth_polygon = rendering.FilledPolygon(scale_points(self.poly_verts))
+    #     self.ground_truth_polygon_transformation = rendering.Transform()
+    #     ground_truth_polygon.add_attr(self.ground_truth_polygon_transformation)
+    #     ground_truth_polygon.set_color(0, 100, 0)
+    #     self.viewer.add_onetime(ground_truth_polygon)
+    #
+    #     # Update for every frame
+    #     if self.cursor is not None:
+    #         self.cursor_polygon_transformation.set_translation(*scale_point(self.cursor))
+    #     self.viewer.draw_polyline(scale_points(self.player_points))
+    #
+    #     return self.viewer.render(return_rgb_array=mode == 'rgb_array')
 
     # def _close(self):
     #     super._close()
