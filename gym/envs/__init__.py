@@ -471,3 +471,13 @@ register(
     entry_point='gym.envs.safety:OffSwitchCartpoleProbEnv',
     max_episode_steps=200,
 )
+
+# Image segmentation
+register(
+    id='RandomShapes-v0',
+    entry_point='gym.envs.image_segmentation:RandomShapes'
+)
+register(
+    id='RandomShapesVertices-v0',
+    entry_point='gym.envs.image_segmentation:RandomShapesVertices'
+)
