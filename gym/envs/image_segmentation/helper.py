@@ -27,6 +27,6 @@ def seg_intersect(a1, a2, b1, b2):
 
     num = np.dot(dap, dp)
     intersection = (num / denom.astype(float)) * db + b1
-    does_intersect = min(a1[0], a2[0]) < intersection[0] < max(a1[0], a2[0]) and min(b1[0], b2[0]) < intersection[
-        0] < max(b1[0], b2[0])
+    does_intersect = min(a1[0], a2[0]) <= intersection[0] <= max(a1[0], a2[0]) and min(b1[0], b2[0]) <= intersection[
+        0] <= max(b1[0], b2[0])
     return does_intersect, intersection
