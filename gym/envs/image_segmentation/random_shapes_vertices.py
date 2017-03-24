@@ -82,8 +82,15 @@ class RandomShapesVertices(gym.Env):
         self.polygon_points = self.shape_complexity
 
         # Ground truth polygon
-        points = np.random.randint(0, self.image_size, [self.polygon_points, 2])  # Random points in 2-D
-        hull = scipy.spatial.ConvexHull(points)
+        while True:
+            try:
+                points = np.random.randint(0, self.image_size, [self.polygon_points, 2])  # Random points in 2-D
+                hull = scipy.spatial.ConvexHull(points)
+                break
+            except:
+                # Keep trying until we have a valid polygon
+                print('Hit error!')
+                pass
         self.poly_verts = [(points[simplex, 0], points[simplex, 1]) for simplex in hull.vertices]
 
         # Ground truth pixel mask
@@ -162,7 +169,7 @@ class RandomShapesVertices(gym.Env):
         return grid
 
 
-# A small testing interface for humans. Use numpad to move around
+# A small testing interface for humans. Enter moves as tuples.
 if __name__ == '__main__':
     import gym
     import matplotlib.pyplot as plt
